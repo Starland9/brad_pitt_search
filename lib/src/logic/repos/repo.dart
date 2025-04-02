@@ -6,10 +6,12 @@ class Repo {
       "https://api.api-ninjas.com/v1/animals?name=$name";
 
   Future<List<Animal>> getAnimal(String name) async {
+    final finalName = name.isEmpty ? "cheetah" : name;
+
     try {
       final dio = Dio();
       final response = await dio.get(
-        apiUrl(name),
+        apiUrl(finalName),
         options: Options(
           headers: {"X-Api-Key": ""},
         ),

@@ -11,18 +11,26 @@ class SearchAnimalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RepoCubit(context.read<Repo>()),
+      create:
+          (context) => RepoCubit(context.read<Repo>())..getAnimal("cheetah"),
       child: Scaffold(
         appBar: AppBar(title: Text("Search Animal")),
         body: Column(
           children: [
-            CupertinoTextField(
-              onSubmitted:
-                  (value) => context.read<RepoCubit>().getAnimal(value),
+            BlocBuilder<RepoCubit, RepoState>(
+              builder: (context, state) {
+                return CupertinoTextField(
+                  keyboardType: TextInputType.webSearch,
+                  onSubmitted:
+                      (value) => context.read<RepoCubit>().getAnimal(value),
+                  style: TextStyle(color: Colors.white),
+                );
+              },
             ),
             Expanded(
               child: BlocBuilder<RepoCubit, RepoState>(
                 builder: (context, state) {
+                  print(state);
                   if (state is RepoError) {
                     return Center(child: Text(state.message));
                   }
