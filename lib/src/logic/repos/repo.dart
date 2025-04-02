@@ -8,7 +8,12 @@ class Repo {
   Future<List<Animal>> getAnimal(String name) async {
     try {
       final dio = Dio();
-      final response = await dio.get(apiUrl(name));
+      final response = await dio.get(
+        apiUrl(name),
+        options: Options(
+          headers: {"X-Api-Key": ""},
+        ),
+      );
 
       if (response.statusCode == 200) {
         return (response.data as List).map((e) => Animal.fromJson(e)).toList();
